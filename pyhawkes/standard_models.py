@@ -44,7 +44,7 @@ class _NonlinearHawkesNodeBase(object):
 
     def add_data(self, F, S):
         T = F.shape[0]
-        assert S.shape == (T,) and S.dtype in (np.int, np.uint, np.uint32)
+        assert S.shape == (T,) and np.issubdtype(S.dtype, np.integer)
 
         if F.shape[1] == self.K * self.B:
             F = np.hstack([np.ones((T,)),  F])
@@ -281,7 +281,7 @@ class _NonlinearHawkesProcessBase(object):
                   and each process.
         """
         assert isinstance(S, np.ndarray) and S.ndim == 2 and S.shape[1] == self.K \
-               and np.amin(S) >= 0 and S.dtype == np.int, \
+               and np.amin(S) >= 0 and np.issubdtype(S.dtype, np.integer), \
                "Data must be a TxK array of event counts"
 
         T = S.shape[0]

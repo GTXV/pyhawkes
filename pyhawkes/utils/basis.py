@@ -122,7 +122,7 @@ class CosineBasis(Basis):
         b = self.b                          # Offset in log time
         nlin = lambda t: np.log(a*t+b)      # Nonlinearity
         u_ir = nlin(np.arange(n_pts))       # Time in log time
-        ctrs = u_ir[np.floor(np.linspace(n_eye,(n_pts/2.0),n_cos)).astype(np.int)]
+        ctrs = u_ir[np.floor(np.linspace(n_eye, (n_pts/2.0), n_cos)).astype(np.int64)]
         if len(ctrs) == 1:
             w = ctrs/2
         else:

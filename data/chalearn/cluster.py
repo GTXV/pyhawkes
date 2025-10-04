@@ -14,7 +14,7 @@ data_path = os.path.join("data", "chalearn", "small", "network6_oopsi.pkl.gz")
 
 with gzip.open(data_path, 'r') as f:
     P, F, Cf, network, pos = pickle.load(f)
-    S_full = (P > 0.1).astype(np.int)
+    S_full = (P > 0.1).astype(np.int64)
 
 sbm = StochasticBlockModel(K=100, C=5)
 

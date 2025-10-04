@@ -96,7 +96,7 @@ class _StochasticBlockModelBase(BayesianDistribution):
 
 
         if c is not None:
-            assert isinstance(c, np.ndarray) and c.shape == (K,) and c.dtype == np.int \
+            assert isinstance(c, np.ndarray) and c.shape == (K,) and np.issubdtype(c.dtype, np.integer) \
                    and np.amin(c) >= 0 and np.amax(c) <= self.C-1, \
                 "c must be a length K-vector of block assignments"
             self.c = c.copy()
@@ -257,7 +257,7 @@ class GibbsSBM(_StochasticBlockModelBase, GibbsSampling):
 
             # Likelihood from network
             for ck in range(self.C):
-                c_temp = self.c.copy().astype(np.int)
+                c_temp = self.c.copy().astype(np.int64)
                 c_temp[k] = ck
 
                 # p(A[k,k'] | c)
@@ -725,7 +725,7 @@ class MeanFieldSBM(_StochasticBlockModelBase, MeanField, MeanFieldSVI):
         self.p = np.random.beta(self.mf_tau1, self.mf_tau0)
         self.v = np.random.gamma(self.mf_alpha, 1.0/self.mf_beta)
 
-        self.c = np.zeros(self.K, dtype=np.int)
+        self.c = np.zeros(self.K, dtype=np.int64)
         for k in range(self.K):
             self.c[k] = int(np.random.choice(self.C, p=self.mf_m[k,:]))
 
@@ -867,7 +867,7 @@ class StochasticBlockModelFixedSparsity(StochasticBlockModel):
         self.m = np.random.dirichlet(self.mf_pi)
         self.v = np.random.gamma(self.mf_alpha, 1.0/self.mf_beta)
 
-        self.c = np.zeros(self.K, dtype=np.int)
+        self.c = np.zeros(self.K, dtype=np.int64)
         for k in range(self.K):
             self.c[k] = int(np.random.choice(self.C, p=self.mf_m[k,:]))
 
@@ -882,7 +882,7 @@ class ErdosRenyiModel(StochasticBlockModel):
                  v=None, alpha=1.0, beta=1.0,
                  kappa=1.0):
         C = 1
-        c = np.zeros(K, dtype=np.int)
+        c = np.zeros(K, dtype=np.int64)
         super(ErdosRenyiModel, self).__init__(K, C, c=c,
                                               p=p, tau0=tau0, tau1=tau1,
                                               v=v, alpha=alpha, beta=beta,

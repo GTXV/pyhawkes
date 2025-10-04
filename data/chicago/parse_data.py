@@ -105,7 +105,7 @@ def dataframe_to_mat(df):
     #locations = np.unique(df.location.values)
     #K = len(locations)
     K = 77
-    C = np.zeros(N, dtype=np.int)
+    C = np.zeros(N, dtype=np.int64)
     Ns = np.zeros(K)
     for k in np.arange(K):
         #ks = df.location.values==locations[k] 

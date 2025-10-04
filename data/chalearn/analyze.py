@@ -22,10 +22,10 @@ data_path = os.path.join("data", "chalearn", "small", "network1_oopsi.pkl.gz")
 
 with gzip.open(data_path, 'r') as f:
     P, F, Cf, network, pos = pickle.load(f)
-    S_full = (P > 0.1).astype(np.int)
+    S_full = (P > 0.1).astype(np.int64)
 
 # Cast to int
-S_full = S_full.astype(np.int)
+S_full = S_full.astype(np.int64)
 
 # Train on all but the last ten minutes (20ms time bins = 50Hz)
 T_test = 10 * 60 * 50

@@ -91,8 +91,8 @@ cpdef ct_resample_Z_logistic_normal_serial(
                     break
 
         if Z[n] == -2:
-            print "Failed!"
-            print acc
+            print("Failed!")
+            print(acc)
 
 cpdef ct_resample_Z_logistic_normal(
     double[::1] S, long[::1] C, long[::1] Z, double dt_max,

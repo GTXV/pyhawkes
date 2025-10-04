@@ -12,7 +12,7 @@ def test_parallel_parent_updates():
     T = 10000
     K = 100
     B = 3
-    S = np.random.poisson(2.0, size=((T,K))).astype(np.int)
+    S = np.random.poisson(2.0, size=((T,K))).astype(np.int64)
 
     EZ0 = np.zeros((T,K))
     EZ  = np.zeros((T,K,K,B))

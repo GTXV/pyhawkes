@@ -5,7 +5,7 @@ def test_compute_rate():
     K = 1
     T = 100
     dt = 1.0
-    network_hypers = {'c': np.zeros(K, dtype=np.int), 'p': 1.0, 'kappa': 10.0, 'v': 10*5.0}
+    network_hypers = {'c': np.zeros(K, dtype=np.int64), 'p': 1.0, 'kappa': 10.0, 'v': 10*5.0}
     true_model = DiscreteTimeNetworkHawkesModelSpikeAndSlab(K=K, dt=dt,
                                                             network_hypers=network_hypers)
     S,R = true_model.generate(T=T)
@@ -24,7 +24,7 @@ def test_generate_statistics():
     K = 1
     T = 100
     dt = 1.0
-    network_hypers = {'c': np.zeros(K, dtype=np.int), 'p': 1.0, 'kappa': 10.0, 'v': 10*5.0}
+    network_hypers = {'c': np.zeros(K, dtype=np.int64), 'p': 1.0, 'kappa': 10.0, 'v': 10*5.0}
     true_model = DiscreteTimeNetworkHawkesModelSpikeAndSlab(K=K, dt=dt,
                                                             network_hypers=network_hypers)
     S,R = true_model.generate(T=T)

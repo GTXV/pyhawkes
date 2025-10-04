@@ -106,7 +106,7 @@ class GammaBias(GibbsSampling, MeanField, MeanFieldSVI):
         self.mf_update_lambda0(data, minibatchfrac=minibatchfrac, stepsize=stepsize)
 
     def get_vlb(self):
-        """
+        r"""
         Variational lower bound for \lambda_k^0
         E[LN p(\lambda_k^0 | \alpha, \beta)] -
         E[LN q(\lambda_k^0 | \tilde{\alpha}, \tilde{\beta})]
