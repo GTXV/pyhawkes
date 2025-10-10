@@ -122,7 +122,7 @@ class DirichletImpulseResponses(GibbsSampling, MeanField, MeanFieldSVI):
         self.mf_update_gamma(data, minibatchfrac=minibatchfrac, stepsize=stepsize)
 
     def get_vlb(self):
-        """
+        r"""
         Variational lower bound for \lambda_k^0
         E[LN p(g | \gamma)] -
         E[LN q(g | \tilde{\gamma})]
@@ -296,7 +296,7 @@ class SBMDirichletImpulseResponses(GibbsSampling):
         self.mf_update_gamma(EZ)
 
     def get_vlb(self):
-        """
+        r"""
         Variational lower bound for \lambda_k^0
         E[LN p(g | \gamma)] -
         E[LN q(g | \tilde{\gamma})]

@@ -283,7 +283,7 @@ class DiscreteTimeParents(GibbsSampling, MeanField):
 
     ### Mean Field
     def expected_log_likelihood(self,x):
-        """
+        r"""
         Compute the expected log likelihood of the data
         This is actually a bit tricky because we can't simply compute
         E[log \lambda_{t,k}] = E[log(\lambda_0 + \sum_{k,b} W_k g_{kb})]
@@ -359,7 +359,7 @@ class DiscreteTimeParents(GibbsSampling, MeanField):
         K, B = self.K, self.B
 
         for k2, (Sk, Fk, Tk, EZk) in enumerate(zip(self.Ss, self.Fs, self.Ts, self.EZ)):
-            Sk = Sk.astype(np.float)
+            Sk = Sk.astype(float)
             # Compute the normalized probability vector for the background rate and
             # each of the basis functions for every other process
             p0  = np.exp(bias_model.expected_log_lambda0()[k2])     # scalar
@@ -425,7 +425,7 @@ class DiscreteTimeParents(GibbsSampling, MeanField):
         return vlb
 
     def get_vlb_python(self):
-        """
+        r"""
         E_q[\ln p(z | \lambda)] - E_q[\ln q(z)]
         :return:
         """
@@ -452,7 +452,7 @@ class DiscreteTimeParents(GibbsSampling, MeanField):
         # The factorial of z cancels with the first term
         # The factorial of s is const wrt z
         for k, (EZk, Sk) in enumerate(zip(self.EZ, self.Ss)):
-            ln_u0 = np.log(EZk[:,0] / Sk.astype(np.float))
+            ln_u0 = np.log(EZk[:,0] / Sk.astype(float))
             ln_u0 = np.nan_to_num(ln_u0)
             vlb += (-EZk[:,0] * ln_u0).sum()
 
@@ -474,7 +474,7 @@ class DiscreteTimeParents(GibbsSampling, MeanField):
 
 
             # Second term
-            ln_u = np.log(EZk[:,1:] / Sk[:,None].astype(np.float))
+            ln_u = np.log(EZk[:,1:] / Sk[:, None].astype(float))
             ln_u = np.nan_to_num(ln_u)
             vlb += (-EZk[:,1:] * ln_u).sum()
         return vlb
@@ -497,7 +497,8 @@ class ContinuousTimeParents(GibbsSampling):
         self.model = model
 
         assert S.ndim == 1 and S.shape == C.shape
-        assert C.dtype == np.int and (len(C) == 0 or (C.min() >= 0 and C.max() < K))
+        assert np.issubdtype(C.dtype, np.integer) and \
+            (len(C) == 0 or (C.min() >= 0 and C.max() < K))
         self.S = S
         self.C = C
         self.T = T
@@ -507,7 +508,7 @@ class ContinuousTimeParents(GibbsSampling):
         self.dt_max = dt_max
 
         # Initialize parent arrays for Gibbs sampling
-        self.Z = -1 * np.ones((self.N,), dtype=np.int)
+        self.Z = -1 * np.ones((self.N,), dtype=np.int64)
         self.bkgd_ss = self.Ns.copy()
         self.weight_ss = np.zeros((self.K, self.K))
         self.imp_ss = np.zeros((self.K, self.K))

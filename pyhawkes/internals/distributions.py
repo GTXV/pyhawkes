@@ -11,7 +11,7 @@ class Discrete(object):
         self.D = p.size
 
     def _is_one_hot(self, x):
-        return x.shape == (self.D,) and x.dtype == np.int and x.sum() == 1
+        return x.shape == (self.D,) and np.issubdtype(x.dtype, np.integer) and x.sum() == 1
 
     def _isindex(self, x):
         return isinstance(x, int) and x >= 0 and x < self.D
@@ -126,7 +126,7 @@ class Gamma:
         return psi(self.alpha) - np.log(self.beta)
 
     def negentropy(self, E_ln_lambda=None, E_lambda=None, E_beta=None, E_ln_beta=None):
-        """
+        r"""
         Compute the entropy of the gamma distribution.
 
         :param E_ln_lambda: If given, use this in place of expectation wrt alpha and beta

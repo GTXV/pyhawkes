@@ -157,7 +157,7 @@ class DiscreteTimeStandardHawkesModel(object):
                   and each process.
         """
         assert isinstance(S, np.ndarray) and S.ndim == 2 and S.shape[1] == self.K \
-               and np.amin(S) >= 0 and S.dtype == np.int, \
+               and np.amin(S) >= 0 and np.issubdtype(S.dtype, np.integer), \
                "Data must be a TxK array of event counts"
 
         T = S.shape[0]
@@ -208,7 +208,7 @@ class DiscreteTimeStandardHawkesModel(object):
             return False
 
     def copy_sample(self):
-        """
+        r"""
         Return a copy of the parameters of the model
         :return: The parameters of the model (A,W,\lambda_0, \beta)
         """
@@ -719,7 +719,7 @@ class _DiscreteTimeNetworkHawkesModelBase(object):
                   and each process.
         """
         assert isinstance(S, np.ndarray) and S.ndim == 2 and S.shape[1] == self.K \
-               and np.amin(S) >= 0 and S.dtype == np.int, \
+               and np.amin(S) >= 0 and np.issubdtype(S.dtype, np.integer), \
                "Data must be a TxK array of event counts"
 
         T = S.shape[0]
@@ -771,7 +771,7 @@ class _DiscreteTimeNetworkHawkesModelBase(object):
         return maxeig < 1.0
 
     def copy_sample(self):
-        """
+        r"""
         Return a copy of the parameters of the model
         :return: The parameters of the model (A,W,\lambda_0, \beta)
         """
@@ -841,7 +841,7 @@ class _DiscreteTimeNetworkHawkesModelBase(object):
                 import pdb; pdb.set_trace()
 
         # Only keep the first T time bins
-        S = S[:T,:].astype(np.int)
+        S = S[:T,:].astype(np.int64, copy=False)
         R = R[:T,:]
 
         if keep:
@@ -1566,7 +1566,7 @@ class ContinuousTimeNetworkHawkesModel(ModelGibbsSampling):
         if len(S) > 0:
             assert isinstance(S, np.ndarray) and S.ndim == 1 \
                    and S.min() >= 0 and S.max() < T and \
-                   S.dtype == np.float, \
+                   np.issubdtype(S.dtype, np.floating), \
                    "S must be a N array of event times"
 
             # Make sure S is sorted
@@ -1575,7 +1575,7 @@ class ContinuousTimeNetworkHawkesModel(ModelGibbsSampling):
         if len(C) > 0:
             assert isinstance(C, np.ndarray) and C.shape == S.shape \
                    and C.min() >= 0 and C.max() < self.K and \
-                   C.dtype == np.int, \
+                   np.issubdtype(C.dtype, np.integer), \
                    "C must be a N array of parent indices"
 
         # Instantiate corresponding parent object
@@ -1626,7 +1626,7 @@ class ContinuousTimeNetworkHawkesModel(ModelGibbsSampling):
                 n_ch = len(s_ch)
 
                 S.append(s_ch)
-                C.append(c_ch * np.ones(n_ch, dtype=np.int))
+                C.append(c_ch * np.ones(n_ch, dtype=np.int64))
 
                 # Generate offspring from child spikes
                 for s in s_ch:
@@ -1640,7 +1640,7 @@ class ContinuousTimeNetworkHawkesModel(ModelGibbsSampling):
         for k in np.arange(K):
             N = np.random.poisson(lambda0[k]*T)
             S_bkgd = np.random.rand(N)*T
-            C_bkgd = k*np.ones(N, dtype=np.int)
+            C_bkgd = k*np.ones(N, dtype=np.int64)
             S.append(S_bkgd)
             C.append(C_bkgd)
 
@@ -1683,7 +1683,7 @@ class ContinuousTimeNetworkHawkesModel(ModelGibbsSampling):
             return False
 
     def copy_sample(self):
-        """
+        r"""
         Return a copy of the parameters of the model
         :return: The parameters of the model (A,W,\lambda_0, \beta)
         """

@@ -2,15 +2,16 @@
 
 import os
 import warnings
-from distutils.core import setup
-from Cython.Build import cythonize
+
 import numpy as np
+from Cython.Build import cythonize
+from setuptools import setup
 
 extra_compile_args = []
 extra_link_args = []
 
 # Only compile with OpenMP if user asks for it
-USE_OPENMP = os.environ.get('USE_OPENMP', False)
+USE_OPENMP = os.environ.get('USE_OPENMP', '').lower() in ("1", "true", "yes", "on")
 if USE_OPENMP:
     extra_compile_args.append('-fopenmp')
     extra_link_args.append('-fopenmp')
@@ -21,10 +22,12 @@ else:
                   "using the GNU gcc and g++ compilers and then run "
                   "'export USE_OPENMP=True' before installing.")
 
-ext_modules = cythonize('**/*.pyx')
+ext_modules = cythonize('**/*.pyx', compiler_directives={"language_level": "3"})
 for e in ext_modules:
     e.extra_compile_args.extend(extra_compile_args)
     e.extra_link_args.extend(extra_link_args)
+    if np.get_include() not in e.include_dirs:
+        e.include_dirs.append(np.get_include())
 
 setup(name='pyhawkes',
       version='0.3.1',
@@ -35,6 +38,6 @@ setup(name='pyhawkes',
       ext_modules=ext_modules,
       install_requires=['numpy', 'scipy', 'matplotlib',
                         'joblib', 'scikit-learn', 'pybasicbayes'],
-      include_dirs=[np.get_include(),],
+      include_dirs=[np.get_include()],
       packages=['pyhawkes', 'pyhawkes.internals', 'pyhawkes.utils']
      )

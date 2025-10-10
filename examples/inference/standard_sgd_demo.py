@@ -8,7 +8,7 @@ def sample_from_network_hawkes(C, K, T, dt, B):
     # Create a true model
     p = 0.8 * np.eye(C)
     v = 10.0 * np.eye(C) + 20.0 * (1-np.eye(C))
-    c = (0.0 * (np.arange(K) < 10) + 1.0 * (np.arange(K)  >= 10)).astype(np.int)
+    c = (0.0 * (np.arange(K) < 10) + 1.0 * (np.arange(K)  >= 10)).astype(np.int64)
     true_model = DiscreteTimeNetworkHawkesModelSpikeAndSlab(C=C, K=K, dt=dt, B=B, c=c, p=p, v=v)
 
     # Plot the true network

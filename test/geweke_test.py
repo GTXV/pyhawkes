@@ -14,7 +14,7 @@ if __name__ == "__main__":
     T = 50
     dt = 1.0
     dt_max = 3.0
-    network_hypers = {'c': np.array([0], dtype=np.int),
+    network_hypers = {'c': np.array([0], dtype=np.int64),
                       'p': 0.5, 'kappa': 3.0, 'v': 15.0}
     weight_hypers = {"kappa_0": 3.0, "nu_0": 15.0}
     model = DiscreteTimeNetworkHawkesModelGammaMixture(K=1, dt=dt, dt_max=dt_max,

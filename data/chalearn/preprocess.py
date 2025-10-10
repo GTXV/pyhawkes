@@ -112,9 +112,9 @@ def parse_fluorescence_file(filename, K, delimiter=','):
                 line = line.rstrip().split(delimiter)
                 assert len(line) == K, "Line is not of length %d!" % K
                 for item in line:
-                    yield np.float(item)
+                    yield float(item)
 
-    F = np.fromiter(iter_func(), dtype=np.float)
+    F = np.fromiter(iter_func(), dtype=float)
     F = F.reshape((-1, K))
     return F
 
@@ -260,7 +260,7 @@ def discretize_fluorescence(F,
     assert np.all(D >= 0) and np.all(D < nbins), "Error in digitizing!"
 
     # Cast D to an integer matrix
-    D = D.astype(np.int)
+    D = D.astype(np.int64)
 
     return D, edges
 

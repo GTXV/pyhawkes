@@ -81,7 +81,7 @@ def generate_synthetic_data(seed=None):
     p = 0.08
     kappa = 3.0
     v = kappa * 5.0
-    c = np.zeros(K, dtype=np.int)
+    c = np.zeros(K, dtype=np.int64)
 
     # Large network:
     # Seed = 2467634490
